@@ -1,0 +1,152 @@
+{% extends "global_layout.html" %}
+{% block content %}
+<div class="container">
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-12">
+            <div class="card" id="card-container">
+                <div class="card-body" id="card">
+                  <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>researcherID</th>
+                                    <th>project id</th>
+                                    <th>Evaluation Date</th>
+                                    <th>Grade</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for view in views %}
+                                    <tr>
+                                        <td> {{ view.researcher_id }} </td>
+                                        <td> {{ view.project_id }} </td>
+                                        <td> {{ view.evaluation_date }} </td>
+                                        <td> {{ view.grade }} </td>
+                                        <td>
+                                            <a type="button" onclick="setModalFields(this)"
+                                            data-toggle="modal" data-researcher_id="{{ view.researcher_id }}"
+                                            data-project_id="{{view.project_id}}"  data-evaluation_date= "{{view.evaluation_date}}"
+                                            data-grade= "{{view.grade}}"
+                                            data-bs-toggle = "modal"
+                                            data-bs-target="#editModal">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button style = "all: unset; cursor: pointer;" type = "button"
+                                            data-bs-toggle = "modal" data-bs-target = "#deleteModal"
+                                            data-researcher_id = "{{ view.researcher_id }}" onclick = "setDeleteModalFields(this)">
+                                                <i class = "fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                      </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Edit modal -->
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit</h4>
+            </div>
+            <div class="modal-body">
+                <form id="modal-form">
+                    {{ form.hidden_tag() }}
+                    <div style="text-align: center;">
+                        <input type="text" name="id" id="id" readonly>
+                            <!-- Setting required to false disables the HTML attribute and leaves input validation to the backend -->
+                            {{ form.project_id(id = "project_id", required = False) }}
+                            {{ form.evaluation_date(id = "evaluation_date", required = False) }}
+                            {{ form.grade(id = "grade", required = False) }}
+                        </div>
+                        <div>
+                            {% if form.project_id.errors %}
+                            <ul class = "errors">
+                                {% for error in form.project_id.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.evaluation_date.errors %}
+                            <ul class = "errors">
+                                {% for error in form.evaluation_date.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.grade.errors %}
+                            <ul class = "errors">
+                                {% for error in form.grade.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    {{ form.submit(class = "btn btn btn-success", form = "modal-form", value = "Update") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete modal -->
+<div class = "modal fade" id="deleteModal">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h5 class = "modal-title" id = "deleteModalLabel">Delete</h5>
+                <button type = "button" class = "btn-close" data-bs-dismiss = "modal" aria-label = "Close"></button>
+            </div>
+            <div class = "modal-body">
+            </div>
+            <div class = "modal-footer">
+                <button type = "button" class = "btn btn-secondary" data-bs-dismiss = "modal">Close</button>
+                <form id = "delete-modal-form">
+                    <input type = "submit" class = "btn btn-danger" value = "Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+
+        </script>
+
+        <script>
+            function setModalFields(row) {
+                document.getElementById("id").value = row.getAttribute("data-researcher_id");
+                document.getElementById("project_id").value = row.getAttribute("data-project_id");
+                document.getElementById("evaluation_date").value = row.getAttribute("data-evaluation_date");
+                document.getElementById("grade").value = row.getAttribute("data-grade");
+                document.getElementById("modal-form").action = "/evaluations/update/" + row.getAttribute("data-researcher_id");
+                document.getElementById("modal-form").method = "POST";
+                // document.getElementById("submit").addEventListener("click", (e) => {e.preventDefault();});
+                // commented line above would prevent the default behavior of the submit button, that is, sending the
+                // form data with a post request to the determined address and subsequently closing the pop-up
+            }
+
+            function setDeleteModalFields(row) {
+                document.getElementById("delete-modal-form").action = "/evaluations/delete/" + row.getAttribute("data-researcher_id");
+                document.getElementById("delete-modal-form").method = "POST";
+            }
+        </script>
+
+
+
+
+{% endblock %}

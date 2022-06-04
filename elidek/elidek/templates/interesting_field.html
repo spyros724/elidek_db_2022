@@ -1,0 +1,94 @@
+{% extends "global_layout.html" %}
+{% block content %}
+<div class="container">
+  <h4> Enter the name of the field that has become so interesting!</h4>
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-12" align="center">
+            <form class="form-horizontal" name="project-form" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group col-sm-3 mb-3">
+                    {{ form.field_name.label(class = "form-label") }}
+                    {{ form.field_name(class = "form-control", placeholder="Enter field's name", required = False) }}
+                    {% if form.field_name.errors %}
+                    <ul class = "errors">
+                        {% for error in form.field_name.errors %}
+                        <li class = "text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {{ form.submit(class = "btn btn-primary btn-submit-custom") }}
+              </form>
+          </div>
+    </div>
+</div>
+
+
+<div class="container">
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-12">
+            <div class="card" id="card-container">
+                <div class="card-body" id="card">
+                  <div class="table-responsive">
+                    <h4>The projects...</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Project Id</th>
+                                    <th>Title</th>
+                                    <th>Field Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for view1 in views1 %}
+                                    <tr>
+                                        <td> {{ view1.c1 }} </td>
+                                        <td> {{ view1.c2 }} </td>
+                                        <td> {{ view1.c3 }} </td>
+                                      </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="container">
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-12">
+            <div class="card" id="card-container">
+                <div class="card-body" id="card">
+                  <div class="table-responsive">
+                      <h4>The researchers...</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Researcher's Name</th>
+                                    <th>Researcher's Surname</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for view2 in views2 %}
+                                    <tr>
+                                        <td> {{ view2.c4 }} </td>
+                                        <td> {{ view2.c5 }} </td>
+                                      </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

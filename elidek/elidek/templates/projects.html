@@ -1,0 +1,262 @@
+{% extends "global_layout.html" %}
+{% block content %}
+<div class="container">
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-12" align="center">
+            <form class="form-horizontal" name="project-form" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group col-sm-3 mb-3">
+                    {{ form.starting_date.label(class = "form-label") }}
+                    {{ form.starting_date(class = "form-control", placeholder="Enter starting date", required = False) }}
+                    {% if form.starting_date.errors %}
+                    <ul class = "errors">
+                        {% for error in form.starting_date.errors %}
+                        <li class = "text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group col-sm-3 mb-3">
+                    {{ form.ending_date.label(class = "form-label") }}
+                    {{ form.ending_date(class = "form-control", placeholder="Enter ending date", required = False) }}
+                    {% if form.ending_date.errors %}
+                    <ul class = "errors">
+                        {% for error in form.ending_date.errors %}
+                        <li class = "text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group col-sm-3 mb-3">
+                    {{ form.duration.label(class = "form-label") }}
+                    {{ form.duration(class = "form-control", placeholder="Enter duration in days", required = False) }}
+                    {% if form.duration.errors %}
+                    <ul class = "errors">
+                        {% for error in form.duration.errors %}
+                        <li class = "text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group col-sm-3 mb-3">
+                    {{ form.executive_name.label(class = "form-label") }}
+                    {{ form.executive_name(class = "form-control", placeholder="Enter executive name surname", required = False) }}
+                    {% if form.executive_name.errors %}
+                    <ul class = "errors">
+                        {% for error in form.executive_name.errors %}
+                        <li class = "text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-group col-sm-3 mb-3">
+                    {{ form.executive_surname.label(class = "form-label") }}
+                    {{ form.executive_surname(class = "form-control", placeholder="Enter executive name surname", required = False) }}
+                    {% if form.executive_surname.errors %}
+                    <ul class = "errors">
+                        {% for error in form.executive_surname.errors %}
+                        <li class = "text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {{ form.submit(class = "btn btn-primary btn-submit-custom") }}
+              </form>
+          </div>
+    </div>
+</div>
+
+<div class="container">
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-12">
+            <div class="card" id="card-container">
+                <div class="card-body" id="card">
+                  <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Summary</th>
+                                    <th>Starting Date</th>
+                                    <th>Ending Date</th>
+                                    <th>Funds</th>
+                                    <th>Executive's Name</th>
+                                    <th>Executive's Surname</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for project in projects %}
+                                    <tr>
+                                        <td> {{ project.project_id }} </td>
+                                        <td> {{ project.title }} </td>
+                                        <td> {{ project.summary }} </td>
+                                        <td> {{ project.starting_date }} </td>
+                                        <td> {{ project.ending_date }} </td>
+                                        <td> {{ project.funds}} </td>
+                                        <td> {{ project.executive_name}} </td>
+                                        <td> {{ project.executive_surname}} </td>
+                                        <td>
+                                            <a type="button" onclick="setModalFields(this)"
+                                            data-toggle="modal" data-project_id="{{ project.project_id }}"
+                                            data-title="{{project.title}}"  data-summary= "{{project.summary}}"
+                                            data-starting_date= "{{project.starting_date}}" data-ending_date= "{{project.ending_date}}"
+                                            data-funds= "{{project.funds}}"
+                                            data-bs-toggle = "modal"
+                                            data-bs-target="#editModal">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button style = "all: unset; cursor: pointer;" type = "button"
+                                            data-bs-toggle = "modal" data-bs-target = "#deleteModal"
+                                            data-project_id = "{{ project.project_id }}" onclick = "setDeleteModalFields(this)">
+                                                <i class = "fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                      </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container" id="row-container">
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-4">
+            <div class="card" id="card-container-layout">
+                <div class="card-body" id="card">
+                    <h4 class="card-title">View project's researchers</h4>
+                    <p class="card-text" id="paragraph">Press the following button to see the researchers that work on one of the projects presented above. You have to remember the project's id!</p>
+                    <a class="btn btn-primary" id="show-btn" href="/researchers_per_project">Show</a>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+<!-- Edit modal -->
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Project</h4>
+            </div>
+            <div class="modal-body">
+                <form id="modal-form">
+                    {{ form.hidden_tag() }}
+                    <div style="text-align: center;">
+                        <input type="text" name="id" id="id" readonly>
+                            <!-- Setting required to false disables the HTML attribute and leaves input validation to the backend -->
+                            {{ form.title(id = "title", required = False) }}
+                            {{ form.summary(id = "summary", required = False) }}
+                            {{ form.starting_date(id = "starting_date", required = False) }}
+                            {{ form.ending_date(id = "ending-date", required = False) }}
+                            {{ form.funds(id = "funds", required = False) }}
+                        </div>
+                        <div>
+                            {% if form.title.errors %}
+                            <ul class = "errors">
+                                {% for error in form.title.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.summary.errors %}
+                            <ul class = "errors">
+                                {% for error in form.summary.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.starting_date.errors %}
+                            <ul class = "errors">
+                                {% for error in form.starting_date.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.ending_date.errors %}
+                            <ul class = "errors">
+                                {% for error in form.ending_date.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.funds.errors %}
+                            <ul class = "errors">
+                                {% for error in form.funds.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    {{ form.submit(class = "btn btn btn-success", form = "modal-form", value = "Update") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete modal -->
+<div class = "modal fade" id="deleteModal">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h5 class = "modal-title" id = "deleteModalLabel">Delete Project</h5>
+                <button type = "button" class = "btn-close" data-bs-dismiss = "modal" aria-label = "Close"></button>
+            </div>
+            <div class = "modal-body">
+                Can I say a bad word? Can I say a bad word? You m...
+            </div>
+            <div class = "modal-footer">
+                <button type = "button" class = "btn btn-secondary" data-bs-dismiss = "modal">Close</button>
+                <form id = "delete-modal-form">
+                    <input type = "submit" class = "btn btn-danger" value = "Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+
+        </script>
+
+        <script>
+            function setModalFields(row) {
+                document.getElementById("id").value = row.getAttribute("data-project_id");
+                document.getElementById("title").value = row.getAttribute("data-title");
+                document.getElementById("summary").value = row.getAttribute("data-summary");
+                document.getElementById("starting_date").value = row.getAttribute("data-starting_date");
+                document.getElementById("ending_date").value = row.getAttribute("data-ending_date");
+                document.getElementById("funds").value = row.getAttribute("data-funds");
+                document.getElementById("modal-form").action = "/projects/update/" + row.getAttribute("data-project_id");
+                document.getElementById("modal-form").method = "POST";
+                // document.getElementById("submit").addEventListener("click", (e) => {e.preventDefault();});
+                // commented line above would prevent the default behavior of the submit button, that is, sending the
+                // form data with a post request to the determined address and subsequently closing the pop-up
+            }
+
+            function setDeleteModalFields(row) {
+                document.getElementById("delete-modal-form").action = "/projects/delete/" + row.getAttribute("data-project_id");
+                document.getElementById("delete-modal-form").method = "POST";
+            }
+        </script>
+
+
+
+{% endblock %}

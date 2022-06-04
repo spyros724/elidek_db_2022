@@ -1,0 +1,212 @@
+{% extends "global_layout.html" %}
+{% block content %}
+<div class="container">
+  <h4> Enter the id of the project to see the researchers that work on it. Otherwise you can see all the researchers in the database.</h4>
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-12" align="center">
+            <form class="form-horizontal" name="project-form" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group col-sm-3 mb-3">
+                    {{ form.researcher_id.label(class = "form-label") }}
+                    {{ form.researcher_id(class = "form-control", placeholder="Enter project's id", required = False) }}
+                    {% if form.researcher_id.errors %}
+                    <ul class = "errors">
+                        {% for error in form.researcher_id.errors %}
+                        <li class = "text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {{ form.submit(class = "btn btn-primary btn-submit-custom") }}
+              </form>
+          </div>
+    </div>
+</div>
+
+
+<div class="container">
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-12">
+            <div class="card" id="card-container">
+                <div class="card-body" id="card">
+                  <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Surname</th>
+                                    <th>Gender</th>
+                                    <th>Birth Date Date</th>
+                                    <th>Org. id</th>
+                                    <th>Recruitment Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for researcher in researchers %}
+                                    <tr>
+                                        <td> {{ researcher.researcher_id }} </td>
+                                        <td> {{ researcher.name }} </td>
+                                        <td> {{ researcher.surname }} </td>
+                                        <td> {{ researcher.gender }} </td>
+                                        <td> {{ researcher.birth_date }} </td>
+                                        <td> {{ researcher.organization_id}} </td>
+                                        <td> {{ researcher.recruitment_date}} </td>
+                                        <td>
+                                            <a type="button" onclick="setModalFields(this)"
+                                            data-toggle="modal" data-researcher_id="{{ researcher.researcher_id }}"
+                                            data-name="{{researcher.name}}"  data-surname= "{{researcher.surname}}"
+                                            data-gender= "{{researcher.gender}}" data-birth_date= "{{researcher.birth_date}}"
+                                            data-organization_id= "{{researcher.organization_id}}" data-recruitment_date= "{{researcher.recruitment_date}}"
+                                            data-bs-toggle = "modal"
+                                            data-bs-target="#editModal">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button style = "all: unset; cursor: pointer;" type = "button"
+                                            data-bs-toggle = "modal" data-bs-target = "#deleteModal"
+                                            data-project_id = "{{ researcher.researcher_id }}" onclick = "setDeleteModalFields(this)">
+                                                <i class = "fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                      </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Edit modal -->
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Researcher</h4>
+            </div>
+            <div class="modal-body">
+                <form id="modal-form">
+                    {{ form.hidden_tag() }}
+                    <div style="text-align: center;">
+                        <input type="text" name="id" id="id" readonly>
+                            <!-- Setting required to false disables the HTML attribute and leaves input validation to the backend -->
+                            {{ form.name(id = "name", required = False) }}
+                            {{ form.surname(id = "surname", required = False) }}
+                            {{ form.gender(id = "gender", required = False) }}
+                            {{ form.birth_date(id = "birth_date", required = False) }}
+                            {{ form.organization_id(id = "organization_id", required = False) }}
+                            {{ form.recruitment_date(id = "recruitment_date", required = False) }}
+                        </div>
+                        <div>
+                            {% if form.name.errors %}
+                            <ul class = "errors">
+                                {% for error in form.name.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.surname.errors %}
+                            <ul class = "errors">
+                                {% for error in form.surname.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.gender.errors %}
+                            <ul class = "errors">
+                                {% for error in form.gender.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.birth_date.errors %}
+                            <ul class = "errors">
+                                {% for error in form.birth_date.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.organization_id.errors %}
+                            <ul class = "errors">
+                                {% for error in form.organization_id.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if form.recruitment_date.errors %}
+                            <ul class = "errors">
+                                {% for error in form.recruitment_date.errors %}
+                                <li class = "alert text-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    {{ form.submit(class = "btn btn btn-success", form = "modal-form", value = "Update") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete modal -->
+<div class = "modal fade" id="deleteModal">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h5 class = "modal-title" id = "deleteModalLabel">Delete Researcher</h5>
+                <button type = "button" class = "btn-close" data-bs-dismiss = "modal" aria-label = "Close"></button>
+            </div>
+            <div class = "modal-body">
+                Can I say a bad word? Can I say a bad word? You m...
+            </div>
+            <div class = "modal-footer">
+                <button type = "button" class = "btn btn-secondary" data-bs-dismiss = "modal">Close</button>
+                <form id = "delete-modal-form">
+                    <input type = "submit" class = "btn btn-danger" value = "Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+
+        </script>
+
+        <script>
+            function setModalFields(row) {
+                document.getElementById("id").value = row.getAttribute("data-researcher_id");
+                document.getElementById("name").value = row.getAttribute("data-name");
+                document.getElementById("surname").value = row.getAttribute("data-surname");
+                document.getElementById("gender").value = row.getAttribute("data-gender");
+                document.getElementById("birth_date").value = row.getAttribute("data-birth_date");
+                document.getElementById("organization_id").value = row.getAttribute("data-organization_id");
+                document.getElementById("recruitment_date").value = row.getAttribute("data-recruitment_date");
+                document.getElementById("modal-form").action = "/researchers_per_project/update/" + row.getAttribute("data-researcher_id");
+                document.getElementById("modal-form").method = "POST";
+                // document.getElementById("submit").addEventListener("click", (e) => {e.preventDefault();});
+                // commented line above would prevent the default behavior of the submit button, that is, sending the
+                // form data with a post request to the determined address and subsequently closing the pop-up
+            }
+
+            function setDeleteModalFields(row) {
+                document.getElementById("delete-modal-form").action = "/researchers_per_project/delete/" + row.getAttribute("data-researcher_id");
+                document.getElementById("delete-modal-form").method = "POST";
+            }
+        </script>
+
+
+
+
+{% endblock %}

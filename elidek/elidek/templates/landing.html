@@ -1,0 +1,298 @@
+{% extends "global_layout.html" %}
+{% block content %}
+<div class="container" id="row-container">
+    {% include "flash_messages.html" %}
+    <div class="row" id="row">
+        <div class="col-md-4">
+            <div class="card" id="card-container-layout">
+                <div class="card-body" id="card">
+                    <h4 class="card-title">View Programs</h4>
+                    <p class="card-text" id="paragraph">3.1.a     Editing and deleting a program is also available</p>
+                    <a class="btn btn-primary" id="show-btn" href="/programs">Show</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" id="card-container-layout">
+                <div class="card-body" id="card">
+                    <h4 class="card-title">Create Program</h4>
+                    <p class="card-text" id="paragraph"></p>
+                    <a class="btn btn-primary" id="show-btn" href="/programs/create">Create</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" id="card-container-layout">
+                <div class="card-body" id="card">
+                    <h4 class="card-title">View Projects</h4>
+                    <p class="card-text" id="paragraph">3.1.b         Editing and deleting projects and researchers is also available</p>
+                    <a class="btn btn-primary" id="show-btn" href="/projects">Show</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" id="row-2">
+      <div class="col-md-4">
+          <div class="card" id="card-container-layout">
+              <div class="card-body" id="card">
+                  <h4 class="card-title">View 1</h4>
+                  <p class="card-text" id="paragraph">3.2</p>
+                  <a class="btn btn-primary" id="show-btn" href="/projects_per_researcher">Show</a>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card" id="card-container-layout">
+              <div class="card-body" id="card">
+                  <h4 class="card-title">View 2</h4>
+                  <p class="card-text" id="paragraph">3.2</p>
+                  <a class="btn btn-primary" id="show-btn" href="/deliverables_per_project">Show</a>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card" id="card-container-layout">
+              <div class="card-body" id="card">
+                  <h4 class="card-title">Interesting Field</h4>
+                  <p class="card-text" id="paragraph">3.3</p>
+                  <a class="btn btn-primary" id="show-btn" href="/interesting_field">Show</a>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="row" id="row-3">
+      <div class="col-md-4">
+          <div class="card" id="card-container-layout">
+              <div class="card-body" id="card">
+                  <h4 class="card-title">Same number of projects in two consecutive years</h4>
+                  <p class="card-text" id="paragraph">3.4</p>
+                  <a class="btn btn-primary" id="show-btn" href="/consecutive_years">Show</a>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card" id="card-container-layout">
+              <div class="card-body" id="card">
+                  <h4 class="card-title">Most common pairs of fields in a project</h4>
+                  <p class="card-text" id="paragraph">3.5</p>
+                  <a class="btn btn-primary" id="show-btn" href="/field_pairs">Show</a>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card" id="card-container-layout">
+              <div class="card-body" id="card">
+                  <h4 class="card-title">Researchers on projects with no deliverables</h4>
+                  <p class="card-text" id="paragraph">3.8</p>
+                  <a class="btn btn-primary" id="show-btn" href="/no_deliverables">Show</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row" id="row-4">
+    <div class="col-md-4">
+        <div class="card" id="card-container-layout">
+            <div class="card-body" id="card">
+                <h4 class="card-title">Create a field of research</h4>
+                <p class="card-text" id="paragraph"></p>
+                <a class="btn btn-primary" id="show-btn" href="/create_field">Create</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card" id="card-container-layout">
+            <div class="card-body" id="card">
+                <h4 class="card-title">Create an executive</h4>
+                <p class="card-text" id="paragraph"></p>
+                <a class="btn btn-primary" id="show-btn" href="/create_executive">Create</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card" id="card-container-layout">
+            <div class="card-body" id="card">
+                <h4 class="card-title">Create Organization</h4>
+                <p class="card-text" id="paragraph">After that, don't forget to create a university, a research center or a company!!</p>
+                <a class="btn btn-primary" id="show-btn" href="/create_organization">Create</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" id="row-5">
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Create a University</h4>
+              <p class="card-text" id="paragraph">First you have to create an organization!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_university">Create</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Create a Comany</h4>
+              <p class="card-text" id="paragraph">First you have to create an organization!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_company">Create</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Create Research Center</h4>
+              <p class="card-text" id="paragraph">First you have to create an organization!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_research_center">Create</a>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="row" id="row-6">
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Insert a phone number for an organization</h4>
+              <p class="card-text" id="paragraph">First you have to create the organization!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_phone_number">Create</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Create a Researcher</h4>
+              <p class="card-text" id="paragraph">First you have to create his organization!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_researcher">Create</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Create a project</h4>
+              <p class="card-text" id="paragraph">First you have to create the organization, the program and the executive who handles it as well as the researcher who is in charge!! After that, create deliverables if needed.</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_project">Create</a>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="row" id="row-7">
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Create a deliverable</h4>
+              <p class="card-text" id="paragraph">First create its project!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_deliverable">Create</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Set a researcher to evaluate a project</h4>
+              <p class="card-text" id="paragraph">First create the researcher and the project!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_evaluation">Set</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Set a researcher to work on a project</h4>
+              <p class="card-text" id="paragraph">First create the researcher and the project!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_works_on">Set</a>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="row" id="row-8">
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Set a project to refer to a research field</h4>
+              <p class="card-text" id="paragraph">First create the project and the field!!</p>
+              <a class="btn btn-primary" id="show-btn" href="/create_refers_to">Set</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Update or delete a field</h4>
+              <p class="card-text" id="paragraph"></p>
+              <a class="btn btn-primary" id="show-btn" href="/fields">Let's see...</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Update or delete an executive</h4>
+              <p class="card-text" id="paragraph"></p>
+              <a class="btn btn-primary" id="show-btn" href="/executives">Let's see...</a>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="row" id="row-9">
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Update or delete an organization</h4>
+              <p class="card-text" id="paragraph"></p>
+              <a class="btn btn-primary" id="show-btn" href="/organizations">Let's see...</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Update or delete a deliverable</h4>
+              <p class="card-text" id="paragraph"></p>
+              <a class="btn btn-primary" id="show-btn" href="/deliverables">Let's see...</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Update or delete an evaluation</h4>
+              <p class="card-text" id="paragraph"></p>
+              <a class="btn btn-primary" id="show-btn" href="/evaluations">Let's see...</a>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="row" id="row-11">
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Did the researcher change the project it works for?</h4>
+              <p class="card-text" id="paragraph"></p>
+              <a class="btn btn-primary" id="show-btn" href="/works_on">Let's see...</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Did the project change the field it refers to?</h4>
+              <p class="card-text" id="paragraph"></p>
+              <a class="btn btn-primary" id="show-btn" href="/refers_to">Let's see...</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="card" id="card-container-layout">
+          <div class="card-body" id="card">
+              <h4 class="card-title">Delete a researcher</h4>
+              <p class="card-text" id="paragraph"></p>
+              <a class="btn btn-primary" id="show-btn" href="/researchers">Let's see...</a>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+{% endblock content %}
